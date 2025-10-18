@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="653.0" prefWidth="838.0" style="-fx-background-color: linear-gradient(to bottom, #ff6b6b 0%, #ee5a24 100%);" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox alignment="CENTER" prefHeight="104.0" prefWidth="838.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="61.0" prefWidth="388.0" style="-fx-text-fill: #2c3e50; -fx-font-size: 28; -fx-font-weight: bold;" text="My Accounts" />
+         </children>
+      </VBox>
+
+      <TabPane prefHeight="450.0" prefWidth="838.0" style="-fx-background-color: white;" tabClosingPolicy="UNAVAILABLE">
+         <tabs>
+            <Tab text="Savings">
+               <content>
+                  <VBox spacing="15" style="-fx-padding: 20;">
+                     <Label style="-fx-font-size: 18; -fx-font-weight: bold;" text="Savings Account" />
+
+                     <VBox spacing="10" style="-fx-border-color: #ddd; -fx-border-radius: 5; -fx-padding: 15;">
+                        <HBox spacing="10">
+                           <Label style="-fx-font-weight: bold;" text="Account Balance:" />
+                           <Region HBox.hgrow="ALWAYS" />
+                           <Label fx:id="savingsBalance" style="-fx-font-weight: bold;" text="BWP 0.00" />
+                        </HBox>
+                        <Label fx:id="savingsAccountNumber" text="Account: ACC-SV001" />
+                        <Label text="Interest Rate: 2.5% monthly" />
+                        <HBox spacing="10" />
+                     </VBox>
+                  </VBox>
+               </content>
+            </Tab>
+
+            <Tab text="Investment">
+               <content>
+                  <VBox spacing="15" style="-fx-padding: 20;">
+                     <Label style="-fx-font-size: 18; -fx-font-weight: bold;" text="Investment Account" />
+
+                     <VBox spacing="10" style="-fx-border-color: #ddd; -fx-border-radius: 5; -fx-padding: 15;">
+                        <HBox spacing="10">
+                           <Label style="-fx-font-weight: bold;" text="Account Balance:" />
+                           <Region HBox.hgrow="ALWAYS" />
+                           <Label fx:id="investmentBalance" style="-fx-font-weight: bold;" text="BWP 0.00" />
+                        </HBox>
+                        <Label fx:id="investmentAccountNumber" text="Account: ACC-IN001" />
+                        <Label text="Interest Rate: 5% monthly" />
+                        <HBox spacing="10" />
+                     </VBox>
+                  </VBox>
+               </content>
+            </Tab>
+
+            <Tab text="Cheque">
+               <content>
+                  <VBox spacing="15" style="-fx-padding: 20;">
+                     <Label style="-fx-font-size: 18; -fx-font-weight: bold;" text="Cheque Account" />
+
+                     <VBox spacing="10" style="-fx-border-color: #ddd; -fx-border-radius: 5; -fx-padding: 15;">
+                        <HBox spacing="10">
+                           <Label style="-fx-font-weight: bold;" text="Account Balance:" />
+                           <Region HBox.hgrow="ALWAYS" />
+                           <Label fx:id="chequeBalance" style="-fx-font-weight: bold;" text="BWP 0.00" />
+                        </HBox>
+                        <Label fx:id="chequeAccountNumber" text="Account: ACC-CH001" />
+                        <Label text="Account Type: Salary Account" />
+                        <HBox spacing="10" />
+                     </VBox>
+                  </VBox>
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+
+      <VBox alignment="CENTER" prefHeight="100.0" prefWidth="838.0">
+         <children>
+            <HBox alignment="CENTER" spacing="15">
+               <Button onAction="#backToDashboard" style="-fx-background-color: #c44569; -fx-text-fill: white; -fx-font-weight: bold; -fx-pref-width: 180;" text="Back to Dashboard" />
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</VBox>

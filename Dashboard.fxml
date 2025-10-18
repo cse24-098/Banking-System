@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" spacing="20.0" style="-fx-background-color: linear-gradient(to bottom, #ff6b6b 0%, #ee5a24 100%);" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+
+   <padding>
+      <Insets bottom="30" left="30" right="30" top="30" />
+   </padding>
+
+   <children>
+      <!-- Header Section -->
+      <VBox alignment="CENTER" prefHeight="100.0" prefWidth="800.0">
+         <children>
+            <Label alignment="CENTER" style="-fx-text-fill: white; -fx-font-size: 28; -fx-font-weight: bold;" text="Welcome, Customer!" />
+            <Label alignment="CENTER" style="-fx-text-fill: #ffeaa7; -fx-font-size: 16; -fx-padding: 10 0 0 0;" text="What would you like to do today?" />
+         </children>
+      </VBox>
+
+      <!-- Main Content Section -->
+      <VBox prefHeight="400.0" prefWidth="800.0" style="-fx-background-radius: 15; -fx-background-color: rgba(255,255,255,0.1);">
+         <padding>
+            <Insets bottom="30" left="30" right="30" top="30" />
+         </padding>
+
+         <children>
+            <!-- First Row of Buttons -->
+            <HBox alignment="CENTER" prefHeight="150.0" prefWidth="800.0" spacing="25">
+               <children>
+                  <VBox alignment="CENTER" style="-fx-background-color: #2c3e50; -fx-background-radius: 10; -fx-padding: 20; -fx-pref-width: 200;">
+                     <children>
+                        <Button fx:id="balanceButton" mnemonicParsing="false" onAction="#handleViewBalance" style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-pref-width: 160; -fx-pref-height: 50;" text="View Balance" />
+                     </children>
+                  </VBox>
+
+                  <VBox alignment="CENTER" style="-fx-background-color: #2c3e50; -fx-background-radius: 10; -fx-padding: 20; -fx-pref-width: 200;">
+                     <children>
+                        <Button fx:id="historyButton" mnemonicParsing="false" onAction="#handleTransactionHistory" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-pref-width: 160; -fx-pref-height: 50;" text="Transaction History" />
+                     </children>
+                  </VBox>
+
+                  <VBox alignment="CENTER" style="-fx-background-color: #2c3e50; -fx-background-radius: 10; -fx-padding: 20; -fx-pref-width: 200;">
+                     <children>
+                        <Button fx:id="depositButton" mnemonicParsing="false" onAction="#handleDeposit" style="-fx-background-color: #e67e22; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-pref-width: 160; -fx-pref-height: 50;" text="Deposit" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+
+            <!-- Second Row of Buttons -->
+            <HBox alignment="CENTER" prefHeight="150.0" prefWidth="800.0" spacing="25" style="-fx-padding: 20 0 0 0;">
+               <children>
+                  <VBox alignment="CENTER" style="-fx-background-color: #2c3e50; -fx-background-radius: 10; -fx-padding: 20; -fx-pref-width: 200;">
+                     <children>
+                        <Button fx:id="withdrawButton" mnemonicParsing="false" onAction="#handleWithdraw" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-pref-width: 160; -fx-pref-height: 50;" text="Withdraw" />
+                     </children>
+                  </VBox>
+
+                  <VBox alignment="CENTER" style="-fx-background-color: #2c3e50; -fx-background-radius: 10; -fx-padding: 20; -fx-pref-width: 200;">
+                     <children>
+                        <Button fx:id="accountsButton" mnemonicParsing="false" onAction="#handleViewAccounts" style="-fx-background-color: #e67e22; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-pref-width: 160; -fx-pref-height: 50;" text="View Accounts" />
+                     </children>
+                  </VBox>
+
+                  <VBox alignment="CENTER" style="-fx-background-color: #2c3e50; -fx-background-radius: 10; -fx-padding: 20; -fx-pref-width: 200;">
+                     <children>
+                        <Button fx:id="OpenAccountButton" mnemonicParsing="false" onAction="#handleAccount" style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-pref-width: 160; -fx-pref-height: 50;" text="Open Account" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+
+      <!-- Footer Section -->
+      <VBox alignment="CENTER" prefHeight="80.0" prefWidth="800.0">
+         <children>
+            <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#handleLogout" style="-fx-background-color: #c44569; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-pref-width: 150; -fx-pref-height: 45;" text="Logout" />
+         </children>
+      </VBox>
+   </children>
+</VBox>

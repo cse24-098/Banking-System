@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="669.0" prefWidth="600.0" spacing="25.0" style="-fx-background-color: linear-gradient(to bottom, #ff6b6b 0%, #ee5a24 100%);" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+
+   <padding>
+      <Insets bottom="30" left="30" right="30" top="30" />
+   </padding>
+
+   <children>
+      <!-- Header -->
+      <VBox alignment="CENTER" prefHeight="80.0" prefWidth="600.0">
+         <children>
+            <Label style="-fx-text-fill: white; -fx-font-size: 28; -fx-font-weight: bold;" text="MAKE A WITHDRAWAL" />
+            <Label style="-fx-text-fill: #ffeaa7; -fx-font-size: 14; -fx-padding: 5 0 0 0;" text="Withdraw funds from your account" />
+         </children>
+      </VBox>
+
+      <!-- Main Form -->
+      <VBox prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white; -fx-background-radius: 15;">
+         <padding>
+            <Insets bottom="30" left="30" right="30" top="30" />
+         </padding>
+         <children>
+            <!-- Account Selection -->
+            <VBox prefHeight="80.0" prefWidth="600.0" spacing="10">
+               <children>
+                  <Label style="-fx-font-weight: bold; -fx-text-fill: #2c3e50; -fx-font-size: 14;" text="Select an Account:" />
+                  <ComboBox fx:id="accountComboBox" onAction="#onAccountSelected" promptText="Choose account to withdraw from" style="-fx-pref-width: 400; -fx-pref-height: 35; -fx-background-radius: 5;" />
+               </children>
+            </VBox>
+
+            <!-- Amount Input -->
+            <VBox prefHeight="90.0" prefWidth="600.0" spacing="10">
+               <children>
+                  <Label style="-fx-font-weight: bold; -fx-text-fill: #2c3e50; -fx-font-size: 14;" text="Amount to Withdraw:" />
+                  <TextField fx:id="amountField" promptText="Enter amount in BWP" style="-fx-pref-width: 400; -fx-pref-height: 35; -fx-background-radius: 5;" />
+               </children>
+            </VBox>
+
+            <!-- Current Balance Display -->
+            <VBox prefHeight="80.0" prefWidth="600.0" spacing="10">
+               <children>
+                  <Label style="-fx-font-weight: bold; -fx-text-fill: #2c3e50; -fx-font-size: 14;" text="Current Balance:" />
+                  <Label fx:id="balanceLabel" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #27ae60; -fx-padding: 5; -fx-background-color: #f8f9fa; -fx-background-radius: 5;" text="BWP 0.00" />
+               </children>
+            </VBox>
+
+            <!-- Quick Amount Buttons -->
+            <VBox prefHeight="70.0" prefWidth="600.0" spacing="10">
+               <children>
+                  <Label style="-fx-font-weight: bold; -fx-text-fill: #2c3e50; -fx-font-size: 14;" text="Quick Amounts:" />
+                  <HBox spacing="10">
+                     <children>
+                        <Button onAction="#handleQuick100" style="-fx-background-color: #ecf0f1; -fx-text-fill: #2c3e50; -fx-background-radius: 5; -fx-pref-width: 80;" text="BWP 100" />
+                        <Button onAction="#handleQuick500" style="-fx-background-color: #ecf0f1; -fx-text-fill: #2c3e50; -fx-background-radius: 5; -fx-pref-width: 80;" text="BWP 500" />
+                        <Button onAction="#handleQuick1000" style="-fx-background-color: #ecf0f1; -fx-text-fill: #2c3e50; -fx-background-radius: 5; -fx-pref-width: 80;" text="BWP 1000" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+
+            <!-- Action Buttons -->
+            <HBox alignment="CENTER" prefHeight="70.0" prefWidth="600.0" spacing="20">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#handleConfirmWithdraw" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-pref-width: 200; -fx-pref-height: 45; -fx-font-size: 14;" text="💸 Confirm Withdrawal" />
+
+                  <Button mnemonicParsing="false" onAction="#handleCancel" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-pref-width: 120; -fx-pref-height: 45; -fx-font-size: 14;" text="❌ Cancel" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <HBox prefHeight="68.0" prefWidth="539.0">
+         <children>
+            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="216.0" style="-fx-background-color: #95a5a6;" text="Back to dashboard" />
+         </children>
+      </HBox>
+   </children>
+</VBox>
