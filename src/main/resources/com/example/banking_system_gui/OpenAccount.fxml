@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefHeight="913.0" prefWidth="700" spacing="25" style="-fx-background-color: linear-gradient(to bottom, #ff6b6b 0%, #ee5a24 100%); -fx-padding: 30;" fx:controller="com.example.banking_system_gui.OpenAccountController" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+
+    <!-- Header -->
+    <VBox alignment="CENTER" spacing="10">
+        <Label style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: white;" text="Open New Account" />
+        <Label style="-fx-font-size: 14; -fx-text-fill: #ffeaa7;" text="Verify your identity to open a new account" />
+    </VBox>
+
+    <!-- Account Type Selection -->
+    <VBox prefHeight="749.0" prefWidth="639.0" spacing="15" style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 25;">
+        <Label style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Select Account Type:" />
+
+        <TabPane prefHeight="608.0" prefWidth="590.0" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <!-- Savings Account Tab -->
+                <Tab text="Savings Account">
+                    <content>
+                        <VBox prefHeight="465.0" prefWidth="590.0" spacing="15" style="-fx-padding: 20;">
+                            <Label style="-fx-font-size: 16; -fx-font-weight: bold;" text="Savings Account Application" />
+
+                            <!-- Customer Type Selection -->
+                            <VBox spacing="8">
+                                <Label style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Customer Type *" />
+                                <ChoiceBox fx:id="savingsCustomerType" style="-fx-pref-width: 300;" />
+                            </VBox>
+
+                            <!-- Customer Verification -->
+                            <VBox spacing="10">
+                                <Label style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Customer Verification" />
+                                <TextField fx:id="savingsCustomerId" promptText="Customer ID" style="-fx-pref-width: 300;" />
+                                <TextField fx:id="savingsFullName" promptText="Full Name or Company Name" style="-fx-pref-width: 300;" />
+                            </VBox>
+
+                            <!-- Account Details -->
+                            <VBox spacing="10" style="-fx-padding: 10; -fx-background-color: #f8f9fa; -fx-background-radius: 10;">
+                                <Label style="-fx-font-weight: bold;" text="Account Features:" />
+                                <Label style="-fx-text-fill: #27ae60; -fx-font-size: 12;" text="• Individual: 2.5% monthly interest" />
+                                <Label style="-fx-text-fill: #27ae60; -fx-font-size: 12;" text="• Company: 5% monthly interest" />
+                                <Label style="-fx-text-fill: #e74c3c; -fx-font-size: 12;" text="• No withdrawals allowed" />
+                                <Label style="-fx-text-fill: #27ae60; -fx-font-size: 12;" text="• Minimum deposit: BWP 10" />
+                            </VBox>
+
+                            <VBox spacing="8">
+                                <Label style="-fx-font-weight: bold;" text="Initial Deposit *" />
+                                <TextField fx:id="savingsDeposit" promptText="Enter amount (min BWP 10)" style="-fx-pref-width: 300;" />
+                                <Button fx:id="SavingsButton" onAction="#openSavingsAccount" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-pref-width: 200;" text="Open Savings Account" />
+                            </VBox>
+                        </VBox>
+                    </content>
+                </Tab>
+
+                <!-- Investment Account Tab -->
+                <Tab text="Investment Account">
+                    <content>
+                        <VBox spacing="15" style="-fx-padding: 20;">
+                            <Label style="-fx-font-size: 16; -fx-font-weight: bold;" text="Investment Account Application" />
+
+                            <!-- Customer Type Selection -->
+                            <VBox spacing="8">
+                                <Label style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Customer Type *" />
+                                <ChoiceBox fx:id="investmentCustomerType" style="-fx-pref-width: 300;" />
+                            </VBox>
+
+                            <!-- Customer Verification -->
+                            <VBox spacing="10">
+                                <Label style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Customer Verification" />
+                                <TextField fx:id="investmentCustomerId" promptText="Customer ID" style="-fx-pref-width: 300;" />
+                                <TextField fx:id="investmentFullName" promptText="Full Name or Company Name" style="-fx-pref-width: 300;" />
+                            </VBox>
+
+                            <!-- Account Details -->
+                            <VBox spacing="10" style="-fx-padding: 10; -fx-background-color: #f8f9fa; -fx-background-radius: 10;">
+                                <Label style="-fx-font-weight: bold;" text="Account Features:" />
+                                <Label style="-fx-text-fill: #27ae60; -fx-font-size: 12;" text="• 5% monthly interest for all customers" />
+                                <Label style="-fx-text-fill: #27ae60; -fx-font-size: 12;" text="• Withdrawals allowed" />
+                                <Label style="-fx-text-fill: #e67e22; -fx-font-size: 12;" text="• Minimum deposit: BWP 500" />
+                            </VBox>
+
+                            <VBox spacing="8">
+                                <Label style="-fx-font-weight: bold;" text="Initial Deposit *" />
+                                <TextField fx:id="investmentDeposit" promptText="Enter amount (min BWP 500)" style="-fx-pref-width: 300;" />
+                                <Button fx:id="InvestmentButton" onAction="#openInvestmentAccount" style="-fx-background-color: #e67e22; -fx-text-fill: white; -fx-font-weight: bold; -fx-pref-width: 200;" text="Open Investment Account" />
+                            </VBox>
+                        </VBox>
+                    </content>
+                </Tab>
+
+                <!-- Cheque Account Tab -->
+                <Tab text="Cheque Account">
+                    <content>
+                        <VBox spacing="15" style="-fx-padding: 20;">
+                            <Label style="-fx-font-size: 16; -fx-font-weight: bold;" text="Cheque Account Application" />
+
+                            <!-- Customer Verification -->
+                            <VBox spacing="10">
+                                <Label style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Customer Verification" />
+                                <TextField fx:id="chequeCustomerId" promptText="Customer ID" style="-fx-pref-width: 300;" />
+                                <TextField fx:id="chequeFullName" promptText="Full Name" style="-fx-pref-width: 300;" />
+                            </VBox>
+
+                            <!-- Employment Verification (for Individuals) -->
+                            <VBox fx:id="employmentSection" spacing="10">
+                                <Label style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Employment Verification *" />
+                                <TextField fx:id="companyName" promptText="Company Name" style="-fx-pref-width: 300;" />
+                                <TextField fx:id="companyAddress" promptText="Company Address" style="-fx-pref-width: 300;" />
+                            </VBox>
+
+                            <!-- Account Details -->
+                            <VBox spacing="10" style="-fx-padding: 10; -fx-background-color: #f8f9fa; -fx-background-radius: 10;">
+                                <Label style="-fx-font-weight: bold;" text="Account Features:" />
+                                <Label style="-fx-text-fill: #27ae60; -fx-font-size: 12;" text="• Unlimited transactions" />
+                                <Label style="-fx-text-fill: #27ae60; -fx-font-size: 12;" text="• Salary payments" />
+                                <Label style="-fx-text-fill: #e67e22; -fx-font-size: 12;" text="• Employment verification required for individuals" />
+                            </VBox>
+
+                            <VBox spacing="8">
+                                <Label style="-fx-font-weight: bold;" text="Initial Deposit *" />
+                                <TextField fx:id="chequeDeposit" promptText="Enter amount (min BWP 10)" style="-fx-pref-width: 300;" />
+                                <Button fx:id="chequeButton" onAction="#openChequeAccount" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-pref-width: 200;" text="Open Cheque Account" />
+                            </VBox>
+                        </VBox>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </VBox>
+
+    <!-- Back Button -->
+    <HBox alignment="CENTER">
+        <Button onAction="#handleBack" style="-fx-background-color: #c44569; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-pref-width: 180; -fx-pref-height: 40;" text="🔙 Back to Dashboard" />
+    </HBox>
+
+</VBox>

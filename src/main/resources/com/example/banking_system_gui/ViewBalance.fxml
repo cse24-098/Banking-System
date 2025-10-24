@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefHeight="600" prefWidth="700" spacing="25" style="-fx-background-color: linear-gradient(to bottom, #ff6b6b 0%, #ee5a24 100%); -fx-padding: 30;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.banking_system_gui.ViewBalanceController">
+
+    <!-- Header -->
+    <VBox alignment="CENTER" spacing="10">
+        <Label style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: white;" text="Account Balances" />
+        <Label style="-fx-font-size: 14; -fx-text-fill: white;" text="Overview of all your account balances" />
+    </VBox>
+
+    <!-- Total Balance Summary -->
+    <HBox alignment="CENTER" spacing="20">
+        <VBox alignment="CENTER" style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 25; -fx-pref-width: 250; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 3);">
+            <Label style="-fx-font-size: 16; -fx-text-fill: #7f8c8d;" text="Total Balance" />
+            <Label fx:id="totalBalanceLabel" style="-fx-font-size: 32; -fx-font-weight: bold; -fx-text-fill: #2c3e50; -fx-padding: 10 0 0 0;" text="BWP 0.00" />
+            <Label style="-fx-font-size: 12; -fx-text-fill: #95a5a6; -fx-padding: 5 0 0 0;" text="Across all accounts" />
+        </VBox>
+    </HBox>
+
+    <!-- Individual Account Balances -->
+    <VBox spacing="15">
+        <Label style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Account Details" />
+
+        <!-- Savings Account -->
+        <HBox spacing="20" style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);">
+            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                <Label style="-fx-font-weight: bold; -fx-text-fill: #2c3e50; -fx-font-size: 16;" text="Savings Account" />
+                <Label fx:id="savingsAccountNumber" style="-fx-font-size: 12; -fx-text-fill: #7f8c8d;" text="ACC-SV001" />
+                <Label style="-fx-font-size: 11; -fx-text-fill: #7f8c8d;" />
+            </VBox>
+            <VBox alignment="CENTER_RIGHT" spacing="5">
+                <Label fx:id="savingsBalanceLabel" style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #27ae60;" text="BWP 0.00" />
+                <Label fx:id="savingsInterestLabel" style="-fx-font-size: 11; -fx-text-fill: #7f8c8d;" text="Next interest: BWP 0.00" />
+            </VBox>
+        </HBox>
+
+        <!-- Investment Account -->
+        <HBox spacing="20" style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);">
+            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                <Label style="-fx-font-weight: bold; -fx-text-fill: #2c3e50; -fx-font-size: 16;" text="Investment Account" />
+                <Label fx:id="investmentAccountNumber" style="-fx-font-size: 12; -fx-text-fill: #7f8c8d;" text="ACC-IN001" />
+                <Label style="-fx-font-size: 11; -fx-text-fill: #7f8c8d;" text="• 5% monthly interest • Min: BWP 500" />
+            </VBox>
+            <VBox alignment="CENTER_RIGHT" spacing="5">
+                <Label fx:id="investmentBalanceLabel" style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #e67e22;" text="BWP 0.00" />
+                <Label fx:id="investmentInterestLabel" style="-fx-font-size: 11; -fx-text-fill: #7f8c8d;" text="Next interest: BWP 0.00" />
+            </VBox>
+        </HBox>
+
+        <!-- Cheque Account -->
+        <HBox spacing="20" style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);">
+            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                <Label style="-fx-font-weight: bold; -fx-text-fill: #2c3e50; -fx-font-size: 16;" text="Cheque Account" />
+                <Label fx:id="chequeAccountNumber" style="-fx-font-size: 12; -fx-text-fill: #7f8c8d;" text="ACC-CH001" />
+                <Label style="-fx-font-size: 11; -fx-text-fill: #7f8c8d;" text="• Salary account • Unlimited transactions" />
+            </VBox>
+            <VBox alignment="CENTER_RIGHT" spacing="5">
+                <Label fx:id="chequeBalanceLabel" style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #3498db;" text="BWP 0.00" />
+                <Label style="-fx-font-size: 11; -fx-text-fill: #7f8c8d;" text="Available for withdrawal" />
+            </VBox>
+        </HBox>
+    </VBox>
+
+    <!-- Last Updated & Actions -->
+    <HBox alignment="CENTER" spacing="20">
+        <VBox spacing="5" HBox.hgrow="ALWAYS">
+            <Label fx:id="lastUpdatedLabel" style="-fx-font-size: 11; -fx-text-fill: #95a5a6;" text="Last updated: Just now" />
+        </VBox>
+
+        <Button onAction="#handleRefresh" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-pref-width: 120; -fx-pref-height: 40;" text="🔄 Refresh" />
+
+        <Button onAction="#handleBack" style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-pref-width: 160; -fx-pref-height: 40;" text="🔙 Back to Dashboard" />
+    </HBox>
+
+</VBox>
