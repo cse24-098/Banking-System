@@ -14,11 +14,9 @@ public class ChequeAccount extends Account implements Withdrawable {
     public boolean deposit(double amount) {
         if (amount > 0) {
             setBalance(getBalance() + amount);
-            addTransaction("DEPOSIT", amount);
-            System.out.println("Deposited P" + amount + " to Cheque Account " + getAccountNumber());
             return true;
         }
-        System.out.println("Deposit amount must be positive");
+
         return false;
     }
 
@@ -27,11 +25,9 @@ public class ChequeAccount extends Account implements Withdrawable {
     public boolean withdraw(double amount) {
         if (amount > 0 && amount <= getBalance()) {
             setBalance(getBalance() - amount);
-            addTransaction("WITHDRAWAL", amount);
-            System.out.println("Withdrew P" + amount + " from Cheque Account " + getAccountNumber());
+
             return true;
         }
-        System.out.println("Withdrawal failed - insufficient funds or invalid amount");
         return false;
     }
 
@@ -41,4 +37,8 @@ public class ChequeAccount extends Account implements Withdrawable {
         return getBalance();
     }
 
+    @Override
+    public double getInterestRate() {
+        return 0.0;
+    }
 }

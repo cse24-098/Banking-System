@@ -48,6 +48,17 @@
                         </VBox>
                     </children>
                 </HBox>
+
+                <!-- Second Row of Buttons -->
+                <HBox alignment="CENTER" prefHeight="174.0" prefWidth="679.0" spacing="25">
+                    <children>
+                        <VBox alignment="CENTER" style="-fx-background-color: #1A0029; -fx-background-radius: 10; -fx-padding: 20; -fx-pref-width: 200;">
+                            <children>
+                                <Button fx:id="applyInterestButton" mnemonicParsing="false" onAction="#handleApplyInterest" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-pref-width: 160; -fx-pref-height: 50;" text="Apply Interest" />
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
             </children>
         </VBox>
 

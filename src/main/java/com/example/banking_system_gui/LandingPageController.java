@@ -23,7 +23,7 @@ public class LandingPageController {
     void handleCustomerLogin(ActionEvent event) {
         try {
             // Load customer login screen
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/banking_system_gui/CreatePassword.fxml"));
             Parent root = loader.load();
 
             Stage loginStage = new Stage();

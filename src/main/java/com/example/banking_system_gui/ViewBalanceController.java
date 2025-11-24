@@ -2,101 +2,161 @@ package com.example.banking_system_gui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 public class ViewBalanceController {
 
-    @FXML
-    private Label chequeAccountNumber;
+    @FXML private Label totalBalanceLabel;
+    @FXML private Label accountCountLabel;
+    @FXML private VBox accountsContainer;
 
-    @FXML
-    private Label chequeBalanceLabel;
+    private Customer currentCustomer;
+    private List<Account> accounts;
 
-    @FXML
-    private Label investmentAccountNumber;
-
-    @FXML
-    private Label investmentBalanceLabel;
-
-    @FXML
-    private Label investmentInterestLabel;
-
-    @FXML
-    private Label lastUpdatedLabel;
-
-    @FXML
-    private Label savingsAccountNumber;
-
-    @FXML
-    private Label savingsBalanceLabel;
-
-    @FXML
-    private Label savingsInterestLabel;
-
-    @FXML
-    private Label totalBalanceLabel;
-
-    // Initialize method that runs when the scene loads
-    public void initialize() {
-        loadBalanceData();
-        updateLastUpdatedTime();
+    public void setCustomerData(String customerId) {
+        this.currentCustomer = DataManager.findCustomerById(customerId);
+        if (currentCustomer != null) {
+            this.accounts = DataManager.loadAccountByCustomerID(customerId);
+            currentCustomer.getAccounts().addAll(accounts);
+            updateDisplay();
+        }
     }
 
+    private void updateDisplay() {
+        if (currentCustomer != null && accounts != null) {
+            // Calculate total balance
+            double totalBalance = 0.0;
+            for (Account account : accounts) {
+                totalBalance += account.getBalance();
+            }
+
+            // Update labels
+            totalBalanceLabel.setText("BWP " + String.format("%.2f", totalBalance));
+            accountCountLabel.setText("Across " + accounts.size() + " account" + (accounts.size() != 1 ? "s" : ""));
+
+            // Clear and rebuild account cards
+            accountsContainer.getChildren().clear();
+            createAccountCards();
+        }
+    }
+
+    private void createAccountCards() {
+        for (Account account : accounts) {
+            HBox accountCard = createAccountCard(account);
+            accountsContainer.getChildren().add(accountCard);
+        }
+    }
+
+    private HBox createAccountCard(Account account) {
+        HBox card = new HBox();
+        card.setStyle("-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 2);");
+        card.setSpacing(15);
+
+        // Account icon based on type
+        String emoji = "💳";
+        String type = "Cheque";
+        String color = "#3498db";
+
+        if (account instanceof SavingsAccount) {
+            emoji = "💰";
+            type = "Savings";
+            color = "#27ae60";
+        } else if (account instanceof InvestmentAccount) {
+            emoji = "📈";
+            type = "Investment";
+            color = "#e67e22";
+        }
+
+        // Icon/emoji
+        Label iconLabel = new Label(emoji);
+        iconLabel.setStyle("-fx-font-size: 24;");
+
+        // Account info
+        VBox infoBox = new VBox(5);
+        infoBox.setStyle("-fx-pref-width: 200;");
+
+        Label typeLabel = new Label(type + " Account");
+        typeLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 16; -fx-text-fill: " + color + ";");
+
+        Label numberLabel = new Label(account.getAccountNumber());
+        numberLabel.setStyle("-fx-font-size: 12; -fx-text-fill: #7f8c8d;");
+
+        infoBox.getChildren().addAll(typeLabel, numberLabel);
+
+        // Balance
+        VBox balanceBox = new VBox(5);
+        balanceBox.setStyle("-fx-alignment: CENTER_RIGHT;");
+
+        Label balanceLabel = new Label("BWP " + String.format("%.2f", account.getBalance()));
+        balanceLabel.setStyle("-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
+
+        Label availableLabel = new Label("Available");
+        availableLabel.setStyle("-fx-font-size: 11; -fx-text-fill: #7f8c8d;");
+
+        balanceBox.getChildren().addAll(balanceLabel, availableLabel);
+
+        card.getChildren().addAll(iconLabel, infoBox, balanceBox);
+
+        return card;
+    }
+
+
     @FXML
-    void handleBack(ActionEvent event) {
-        // Close the current window and return to dashboard
-        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        stage.close();
+    void handleBack(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Dashboard.fxml"));
+        Parent root = loader.load();
+
+        DashboardController dashboardController = loader.getController();
+        dashboardController.setCustomerData(currentCustomer.getCustomerID());
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Customer Dashboard");
     }
 
     @FXML
     void handleRefresh(ActionEvent event) {
-        // Refresh the balance data
-        loadBalanceData();
-        updateLastUpdatedTime();
-
-        // Show confirmation message
-        showRefreshConfirmation();
+        if (currentCustomer != null) {
+            // Reload accounts to get latest balances
+            this.accounts = DataManager.loadAccountByCustomerID(currentCustomer.getCustomerID());
+            updateDisplay();
+            showAlert("Refreshed", "Balances updated successfully!");
+        }
     }
 
-    private void loadBalanceData() {
-        // Sample data
-        double savingsBalance = 12500.75;
-        double investmentBalance = 50000.00;
-        double chequeBalance = 2500.50;
-        double totalBalance = savingsBalance + investmentBalance + chequeBalance;
+    @FXML
+    void handleViewAccounts(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewAccounts.fxml"));
+        Parent root = loader.load();
 
-        // Update labels with formatted currency
-        savingsBalanceLabel.setText(String.format("BWP %.2f", savingsBalance));
-        investmentBalanceLabel.setText(String.format("BWP %.2f", investmentBalance));
-        chequeBalanceLabel.setText(String.format("BWP %.2f", chequeBalance));
-        totalBalanceLabel.setText(String.format("BWP %.2f", totalBalance));
+        ViewAccountsController accountsController = loader.getController();
+        accountsController.setCustomerData(currentCustomer.getCustomerID());
 
-        // Calculate and display interest
-        double savingsInterest = savingsBalance * 0.015; // 1.5% monthly interest
-        double investmentInterest = investmentBalance * 0.05; // 5% monthly interest
-
-        savingsInterestLabel.setText(String.format("Next interest: BWP %.2f", savingsInterest));
-        investmentInterestLabel.setText(String.format("Next interest: BWP %.2f", investmentInterest));
-
-        // Set account numbers
-        savingsAccountNumber.setText("ACC-SV001");
-        investmentAccountNumber.setText("ACC-IN001");
-        chequeAccountNumber.setText("ACC-CH001");
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.setTitle("My Accounts");
     }
 
-    private void updateLastUpdatedTime() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy HH:mm:ss");
-        String currentTime = LocalDateTime.now().format(formatter);
-        lastUpdatedLabel.setText("Last updated: " + currentTime);
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
-    private void showRefreshConfirmation() {
-        // You could show a small notification here
-        // For now, we'll just update the last updated time which is already done
-        System.out.println("Balances refreshed successfully!");
-    }
 }

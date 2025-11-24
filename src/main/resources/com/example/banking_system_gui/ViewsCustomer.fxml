@@ -52,14 +52,13 @@
 
             <TableView fx:id="customersTable" prefHeight="105.0" prefWidth="1010.0" style="-fx-background-color: transparent;" VBox.vgrow="ALWAYS">
                 <columns>
-                    <TableColumn fx:id="idColumn" prefWidth="100" text="Customer ID" />
-                    <TableColumn fx:id="nameColumn" prefWidth="150" text="Name" />
-                    <TableColumn fx:id="typeColumn" prefWidth="80" text="Type" />
-                    <TableColumn fx:id="emailColumn" prefWidth="180" text="Email" />
-                    <TableColumn fx:id="phoneColumn" prefWidth="120" text="Phone" />
-                    <TableColumn fx:id="accountsColumn" prefWidth="133.0" text="Accounts" />
-                    <TableColumn fx:id="balanceColumn" prefWidth="130.20001220703125" text="Total Balance" />
-                    <TableColumn fx:id="actionsColumn" prefWidth="118.5999755859375" text="Actions" />
+                    <TableColumn fx:id="idColumn" prefWidth="147.99999809265137" text="Customer ID" />
+                    <TableColumn fx:id="nameColumn" prefWidth="144.20001220703125" text="Name" />
+                    <TableColumn fx:id="typeColumn" prefWidth="123.20001220703125" text="Type" />
+                    <TableColumn fx:id="emailColumn" prefWidth="171.99996948242188" text="Email" />
+                    <TableColumn fx:id="phoneColumn" prefWidth="147.20001220703125" text="Phone" />
+                    <TableColumn fx:id="accountsColumn" prefWidth="129.79998779296875" text="Accounts" />
+                    <TableColumn fx:id="balanceColumn" prefWidth="147.39996337890625" text="Total Balance" />
                 </columns>
             </TableView>
         </VBox>

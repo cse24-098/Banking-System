@@ -9,30 +9,23 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import javafx.scene.control.Label;
+
 import java.io.IOException;
 
 public class DashboardController {
 
-    @FXML
-    private Button OpenAccountButton;
+    @FXML private Button OpenAccountButton;
+    @FXML private Button accountsButton;
+    @FXML private Button balanceButton;
+    @FXML private Button depositButton;
+    @FXML private Button historyButton;
+    @FXML private Button logoutButton;
+    @FXML private Button withdrawButton;
+    @FXML private Label welcomeLabel;
 
-    @FXML
-    private Button accountsButton;
-
-    @FXML
-    private Button balanceButton;
-
-    @FXML
-    private Button depositButton;
-
-    @FXML
-    private Button historyButton;
-
-    @FXML
-    private Button logoutButton;
-
-    @FXML
-    private Button withdrawButton;
+    private String currentCustomerId;
+    private Customer currentCustomer;
 
     @FXML
     void handleAccount(ActionEvent event) {
@@ -40,6 +33,9 @@ public class DashboardController {
             // Load the open account scene
             FXMLLoader loader = new FXMLLoader(getClass().getResource("OpenAccount.fxml"));
             Parent root = loader.load();
+
+            OpenAccountController openAccountController = loader.getController();
+            openAccountController.setCustomerData(currentCustomerId);
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
@@ -57,6 +53,9 @@ public class DashboardController {
             // Load the deposit scene
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Deposit.fxml"));
             Parent root = loader.load();
+
+            DepositController depositController = loader.getController();
+            depositController.setCustomerData(currentCustomerId);
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
@@ -83,7 +82,7 @@ public class DashboardController {
 
             // Return to login screen
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginView.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("CustomerLoginView.fxml"));
                 Parent root = loader.load();
 
                 Stage loginStage = new Stage();
@@ -104,6 +103,9 @@ public class DashboardController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("TransactionHistory.fxml"));
             Parent root = loader.load();
 
+            HistoryController historyController = loader.getController();
+            historyController.setCustomerData(currentCustomerId);
+
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Transaction History");
@@ -120,6 +122,10 @@ public class DashboardController {
             // Load the view accounts scene
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewAccounts.fxml"));
             Parent root = loader.load();
+
+            //PASSESS THE CUSTOMER DATA
+            ViewAccountsController accountsController = loader.getController();
+            accountsController.setCustomerData(currentCustomerId);
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
@@ -138,6 +144,9 @@ public class DashboardController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewBalance.fxml"));
             Parent root = loader.load();
 
+            ViewBalanceController balanceController = loader.getController();
+            balanceController.setCustomerData(currentCustomerId);
+
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Account Balance");
@@ -152,8 +161,11 @@ public class DashboardController {
     void handleWithdraw(ActionEvent event) {
         try {
             // Load the withdraw scene
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Withdraw.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/banking_system_gui/Withdraw.fxml"));
             Parent root = loader.load();
+
+            WithdrawController withdrawController = loader.getController();
+            withdrawController.setCustomerData(currentCustomerId);
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
@@ -162,6 +174,16 @@ public class DashboardController {
 
         } catch (IOException e) {
             showAlert(AlertType.ERROR, "Navigation Error", "Cannot load withdrawal form: " + e.getMessage());
+        }
+    }
+
+    public void setCustomerData(String customerId) {
+        this.currentCustomerId = customerId;
+        this.currentCustomer = DataManager.findCustomerById(customerId);
+
+        if (currentCustomer != null) {
+            welcomeLabel.setText("Welcome, " + currentCustomer.getFirstName() + "!");
+            System.out.println("Dashboard loaded for:" + currentCustomer.getFirstName());
         }
     }
 

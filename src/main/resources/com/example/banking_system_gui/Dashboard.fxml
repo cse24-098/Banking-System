@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" spacing="20.0" style="-fx-background-color: linear-gradient(to bottom, #ff6b6b 0%, #ee5a24 100%);" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="com.example.banking_system_gui.DashboardController" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" spacing="20.0" style="-fx-background-color: linear-gradient(to bottom, #ff6b6b 0%, #ee5a24 100%);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.banking_system_gui.DashboardController">
 
    <padding>
       <Insets bottom="30" left="30" right="30" top="30" />
@@ -14,7 +16,7 @@
       <!-- Header Section -->
       <VBox alignment="CENTER" prefHeight="100.0" prefWidth="800.0">
          <children>
-            <Label alignment="CENTER" style="-fx-text-fill: white; -fx-font-size: 28; -fx-font-weight: bold;" text="Welcome, Customer!" />
+            <Label fx:id="welcomeLabel" alignment="CENTER" style="-fx-text-fill: white; -fx-font-size: 28; -fx-font-weight: bold;" text="Welcome, Customer!" />
             <Label alignment="CENTER" style="-fx-text-fill: #ffeaa7; -fx-font-size: 16; -fx-padding: 10 0 0 0;" text="What would you like to do today?" />
          </children>
       </VBox>

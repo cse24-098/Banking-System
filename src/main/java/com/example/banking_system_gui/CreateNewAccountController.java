@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 
 import java.io.IOException;
 import java.net.URL;
@@ -63,39 +64,136 @@ public class CreateNewAccountController implements Initializable {
     }
 
     @FXML
-    void handleCreateAccount(ActionEvent event) throws IOException {
-        //goes back to dashboard
-        Parent root = FXMLLoader.load(getClass().getResource("/com/example/banking_system_gui/BankTellerDashboard.fxml"));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.setTitle("Bank Teller Dashboard");
+    void handleCreateAccount(ActionEvent event) {
+        String customerId = customerIdLabel.getText().replace("ID:", "").trim();
+
+        double initialDeposit;
+        try {
+            initialDeposit = Double.parseDouble(initialDepositField.getText());
+
+            if (initialDeposit < 0) throw new NumberFormatException();
+        } catch (NumberFormatException e) {
+            showAlert("Error", "Please enter a valid deposit amount");
+            return;
+        }
+
+        if (customerId.isEmpty()) {
+            showAlert("Error", "Please search and select a customer first");
+            return;
+        }
+
+        //validates input
+        if (accountTypeCombo.getValue() == null) {
+            showAlert("Error", "Please select an account type");
+            return;
+        }
+
+        //create account based on type
+        String accountNumber = generateAccountNumber(accountTypeCombo.getValue());
+        Account newAccount = createAccountByType(accountTypeCombo.getValue(), accountNumber, initialDeposit, customerId);
+
+        if (newAccount != null) {
+            //sasves using DataManager
+            DataManager.saveAccount(newAccount, customerId);
+
+            showAlert("Success", "Account created!\n" + "Account:" + accountNumber + "\n" + "Type: " + accountTypeCombo.getValue() + "\n" + "Deposit: BWP " + initialDeposit);
+
+            handleClear(event);
+        }
+
+        String selectedAccountType = accountTypeCombo.getValue();
+        String accountTypeForCheck = "";
+
+        switch (selectedAccountType) {
+            case "Savings Account":
+                accountTypeForCheck = "SAVINGS";
+                break;
+            case "Investment Account":
+                accountTypeForCheck = "INVESTMENT";
+                break;
+            case "Cheque Account":
+                accountTypeForCheck = "CHEQUE";
+                break;
+        }
+
+        if (DataManager.hasAccountType(customerId, accountTypeForCheck)) {
+            showAlert("Account Limit",
+                    "Customer " + customerId + " already has a " + selectedAccountType + ".\n" +
+                            "Each customer can only have one account of each type.");
+            return;
+        }
+
+
+    }
+
+    private Account createAccountByType(String type, String number, double balance, String customerId) {
+        switch (type) {
+            case "Savings Account":
+                return new SavingsAccount(number,balance,"Main Branch", new java.util.Date(), customerId, 0.025);
+            case "Investment Account":
+                return new InvestmentAccount(number, balance, "Main Branch", new java.util.Date(), customerId, 0.05);
+            case "Cheque Account":
+                return new ChequeAccount(number, balance, "Main Branch", new java.util.Date(), customerId);
+            default: return null;
+        }
+    }
+
+    private String generateAccountNumber(String accountType) {
+        // Convert the display name to the type string DataManager expects
+        String typeForDataManager;
+        switch (accountType) {
+            case "Savings Account":
+                typeForDataManager = "SAVINGS";
+                break;
+            case "Investment Account":
+                typeForDataManager = "INVESTMENT";
+                break;
+            case "Cheque Account":
+                typeForDataManager = "CHEQUE";
+                break;
+            default:
+                typeForDataManager = "SAVINGS"; // fallback
+        }
+        return DataManager.generateAccountNumber(typeForDataManager);
     }
 
     @FXML
     void handleSearch(ActionEvent event) {
         String searchTerm = searchField.getText().trim();
 
+        System.out.println("=== DEBUG: SEARCHING FOR CUSTOMER ===");
+        System.out.println("Search term: '" + searchTerm + "'");
+
         if (searchTerm.isEmpty()) {
-            System.out.println("Please enter a customer ID");
+            showAlert("Error", "Please enter a customer ID");
             return;
         }
 
         // customer search
-        if (searchTerm.equals("C001") || searchTerm.equals("C002")) {
-            if (searchTerm.equals("C001")) {
-                customerNameLabel.setText("John Doe");
-                customerIdLabel.setText("ID: C001");
-                customerEmailLabel.setText("Email: john.doe@email.com");
-            } else {
-                customerNameLabel.setText("Jane Smith");
-                customerIdLabel.setText("ID: C002");
-                customerEmailLabel.setText("Email: jane.smith@email.com");
-            }
-            customerDetailsBox.setVisible(true);
-            System.out.println("Customer found: " + searchTerm);
-        } else {
-            System.out.println("Customer not found: " + searchTerm);
-            customerDetailsBox.setVisible(false);
+        Customer customer = DataManager.findCustomerById(searchTerm);
+
+        System.out.println("Customer found: " + (customer != null));
+        if (customer != null) {
+            System.out.println("Customer ID: " + customer.getCustomerID());
+            System.out.println("Customer Name: " + customer.getFirstName() + " " + customer.getLastName());
         }
+
+       if (customer != null) {
+           customerNameLabel.setText(customer.getFirstName() + " " + customer.getLastName());
+           customerIdLabel.setText("ID: " + customer.getCustomerID());
+           customerEmailLabel.setText("Email: " + customer.getEmail());
+           customerDetailsBox.setVisible(true);
+       } else {
+           showAlert("Not Found", "Customer Not Found.");
+           customerDetailsBox.setVisible(false);
+       }
+    }
+
+    private static void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

@@ -21,11 +21,9 @@ public class InvestmentAccount extends Account implements Interest, Withdrawable
     public boolean deposit(double amount) {
         if (amount >= MIN_OPENING_BALANCE){
             setBalance(getBalance() + amount);
-            addTransaction("DEPOSIT", amount);
-            System.out.println("Successfully deposited P" + amount + "into Investment Account" + getAccountNumber());
+
             return true;
         } else {
-            System.out.println("Deposit amount must be at least P" + MIN_OPENING_BALANCE);
             return false;
         }
     }
@@ -34,18 +32,15 @@ public class InvestmentAccount extends Account implements Interest, Withdrawable
     @Override
     public boolean withdraw (double amount) {
         if (amount <= 0) {
-            System.out.println("Error: Withdrawal amount must be positive.");
             return false;
         }
         if (amount > getBalance()) {
-            System.out.println("Error: Insufficient funds for withdrawal. Available balance: " + getBalance() + ", Requested: P" + amount);
             return false;
         }
 
         //process withdrawal
         setBalance(getBalance() - amount);
-        addTransaction("WITHDRAWAL", amount);
-        System.out.println("Successfully withdrew P" + amount + " from Investment Account " + getAccountNumber());
+
         return true;
     }
 
@@ -63,8 +58,7 @@ public class InvestmentAccount extends Account implements Interest, Withdrawable
         double newBalance = currentBalance + interestAmount;
 
         setBalance(newBalance);
-        addTransaction("INTEREST", interestAmount);
-        System.out.println("Monthly interest of P" + interestAmount + "applied to Investment Account");
+
     }
 
     @Override
@@ -82,12 +76,4 @@ public class InvestmentAccount extends Account implements Interest, Withdrawable
         return MIN_OPENING_BALANCE;
     }
 
-    //override display method to show investment account details
-    @Override
-    public void displayAccountDetails() {
-        super.displayAccountDetails(); // Call parent method to display common details
-        System.out.println("Account Type: Investment Account");
-        System.out.println("Interest Rate: " + interestRate);
-        System.out.println("Minimum Opening Balance: P" + MIN_OPENING_BALANCE);
-    }
 }

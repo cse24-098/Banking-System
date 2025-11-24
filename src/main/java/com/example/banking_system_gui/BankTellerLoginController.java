@@ -12,6 +12,7 @@ import java.io.IOException;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.Node;
 import java.io.IOException;
 
 public class BankTellerLoginController {
@@ -30,8 +31,26 @@ public class BankTellerLoginController {
 
     @FXML
     void handleCancel(ActionEvent event) {
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
-        stage.close();
+        try {
+            // Close the current login window
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            currentStage.close();
+
+            // Load and show the landing page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("LandingPage.fxml"));
+            Parent root = loader.load();
+
+            Stage landingStage = new Stage();
+            landingStage.setScene(new Scene(root));
+            landingStage.setTitle("Banking System");
+            landingStage.show();
+
+        } catch (IOException e) {
+            System.err.println("Error loading landing page: " + e.getMessage());
+            // Fallback: just close the window
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            currentStage.close();
+        }
     }
 
     @FXML

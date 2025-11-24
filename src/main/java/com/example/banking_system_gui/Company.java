@@ -5,15 +5,33 @@ import java.util.Date;
 public class Company extends Customer {
     private String companyName;
     private String companyAddress;
-    private int companyNumber;
+    private String location;
+    private int companyRegNumber;
     private Date dateOfIncorporation;
+    private String contactPerson;
+    private String contactPhone;
 
-    public Company(String companyName, String companyAddress, int companyNumber, Date dateOfIncorporation, String customerID, String firstName, String lastName, String email, String phoneNumber) {
-        super(firstName, lastName, customerID, email, phoneNumber);
+    public Company(String companyName, String companyAddress, String location, int companyRegNumber,
+                   Date dateOfIncorporation, String customerID, String email, String phoneNumber,
+                   String contactPerson, String contactPhone) {
+        super("", "", customerID, email, phoneNumber);
         this.companyName = companyName;
         this.companyAddress = companyAddress;
-        this.companyNumber = companyNumber;
+        this.location = location;
+        this.companyRegNumber = companyRegNumber;
         this.dateOfIncorporation = dateOfIncorporation;
+        this.contactPerson = contactPerson;
+        this.contactPhone = contactPhone;
+    }
+
+    @Override
+    public String getFirstName() {
+        return companyName;
+    }
+
+    @Override
+    public String getLastName() {
+        return "";
     }
 
     public String getCompanyName() {
@@ -32,12 +50,20 @@ public class Company extends Customer {
         this.companyAddress = companyAddress;
     }
 
-    public int getCompanyNumber() {
-        return companyNumber;
+    public String getLocation() {
+        return location;
     }
 
-    public void setCompanyNumber(int companyNumber) {
-        this.companyNumber = companyNumber;
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public int getCompanyRegNumber() {
+        return companyRegNumber;
+    }
+
+    public void setCompanyRegNumber(int companyRegNumber) {
+        this.companyRegNumber = companyRegNumber;
     }
 
     public Date getDateOfIncorporation() {
@@ -48,5 +74,19 @@ public class Company extends Customer {
         this.dateOfIncorporation = dateOfIncorporation;
     }
 
-}
+    public String getContactPerson() {
+        return contactPerson;
+    }
 
+    public void setContactPerson(String contactPerson) {
+        this.contactPerson = contactPerson;
+    }
+
+    public String getContactPhone() {
+        return contactPhone;
+    }
+
+    public void setContactPhone(String contactPhone) {
+        this.contactPhone = contactPhone;
+    }
+}

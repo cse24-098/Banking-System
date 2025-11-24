@@ -9,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.scene.control.Alert;
+import java.util.Date;
 
 import java.io.IOException;
 
@@ -21,10 +23,19 @@ public class CreateNewCustomerController {
     private Button cancelButton;
 
     @FXML
-    private TextField compBusinessType;
+    private TextField compAddress;
 
     @FXML
     private TextField compContactPerson;
+
+    @FXML
+    private TextField compContactPhone;
+
+    @FXML
+    private TextField compEmail;
+
+    @FXML
+    private TextField compLocation;
 
     @FXML
     private TextField compName;
@@ -34,6 +45,15 @@ public class CreateNewCustomerController {
 
     @FXML
     private TextField compRegNumber;
+
+    @FXML
+    private TextField dateOfIncorporation;
+
+    @FXML
+    private TextField indAddress;
+
+    @FXML
+    private TextField indDateOfBirth;
 
     @FXML
     private TextField indEmail;
@@ -49,6 +69,9 @@ public class CreateNewCustomerController {
 
     @FXML
     private TextField indPhone;
+
+    @FXML
+    private TextField indResidence;
 
     @FXML
     private Button registerCustomerButton;
@@ -87,8 +110,6 @@ public class CreateNewCustomerController {
 
     @FXML
     void handleRegister(ActionEvent event) {
-        // Register customer logic
-        System.out.println("Register button clicked");
 
         // Check if individual or company registration
         if (isIndividualRegistration()) {
@@ -96,7 +117,7 @@ public class CreateNewCustomerController {
         } else if (isBusinessRegistration()) {
             registerBusinessCustomer();
         } else {
-            System.out.println("Please fill in either individual or business details");
+            showAlert("Error", "Please fill in either individual or business details");
         }
     }
 
@@ -108,43 +129,168 @@ public class CreateNewCustomerController {
 
     private boolean isBusinessRegistration() {
         return !compName.getText().isEmpty() ||
-                !compRegNumber.getText().isEmpty() ||
-                !compContactPerson.getText().isEmpty();
+                !compAddress.getText().isEmpty() ||
+                !compEmail.getText().isEmpty() ||
+                !dateOfIncorporation.getText().isEmpty();
     }
 
     private void registerIndividualCustomer() {
         String firstName = indFirstName.getText();
         String lastName = indLastName.getText();
+        String dateOfBirth = indDateOfBirth.getText();
         String omangId = indOmangId.getText();
-        String email = indEmail.getText();
         String phone = indPhone.getText();
+        String email = indEmail.getText();
+        String address = indAddress.getText();
+        String residence = indResidence.getText();
 
-        System.out.println("Registering Individual: " + firstName + " " + lastName);
+        if (firstName.isEmpty() || lastName.isEmpty() || dateOfBirth.isEmpty() ||
+                omangId.isEmpty() || phone.isEmpty() || address.isEmpty() || residence.isEmpty()) {
+            showAlert("Error", "Please fill in all required fields: First Name, Last Name, Date of Birth, Omang ID, Phone Number, Address, and Residence");
+            return;
+        }
+
+        try {
+            int omangIdNum = Integer.parseInt(omangId);
+
+            // Validate Omang ID length (should be 9 digits)
+            if (omangId.length() != 9) {
+                showAlert("Error", "Omang ID must be exactly 9 digits");
+                return;
+            }
+
+            // Check if Omang ID already exists
+            if (DataManager.isOmangIdExists(omangIdNum)) {
+                showAlert("Error", "Omang ID " + omangId + " already exists in the system!");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            showAlert("Error", "Omang ID must be a valid number");
+            return;
+        }
+
+
+        String customerId = DataManager.generateCustomerId();
+
+        // Create Individual customer with all the new fields
+        Individual individual = new Individual(
+                Integer.parseInt(omangId),  // idNumber
+                parseDate(dateOfBirth),     // dateOfBirth (you'll need to create parseDate method)
+                customerId,                 // customerID
+                firstName,                  // firstName
+                lastName,                   // lastName
+                email,                      // email
+                phone,                       // phoneNumber
+                address,
+                residence
+        );
+
+        DataManager.saveCustomer(individual);
+        showAlert("Success", "Customer registered successfully!\nCustomer ID: " + customerId + "\nGive this ID to the customer.");
+        clearAllFields();
+
+    }
+
+    private Date parseDate(String dateString) {
+        try {
+            // Simple date parsing - you might want to use a specific format
+            // For now, return current date
+            return new Date();
+        } catch (Exception e) {
+            return new Date(); // Return current date as fallback
+        }
     }
 
     private void registerBusinessCustomer() {
         String companyName = compName.getText();
-        String regNumber = compRegNumber.getText();
+        String companyAddress = compAddress.getText();
+        String location = compLocation.getText();
+        String companyPhone = compPhone.getText();
         String contactPerson = compContactPerson.getText();
-        String businessType = compBusinessType.getText();
-        String phone = compPhone.getText();
+        String contactPhone = compContactPhone.getText();
+        String email = compEmail.getText();
+        String incorporationDate = dateOfIncorporation.getText();
+        String companyRegNumberStr = compRegNumber.getText();
 
-        System.out.println("Registering Business: " + companyName);
+        if (companyName.isEmpty() || companyAddress.isEmpty() ||
+                location.isEmpty() || companyPhone.isEmpty() || contactPerson.isEmpty() || email.isEmpty()) {
+            showAlert("Error", "Please fill in all required fields");
+            return;
+        }
+
+        int companyRegistrationNumber;
+        try {
+            companyRegistrationNumber = Integer.parseInt(companyRegNumberStr);
+
+            // Check if company registration number already exists
+            if (DataManager.isCompanyRegNumberExists(companyRegistrationNumber)) {
+                showAlert("Error", "Company Registration Number " + companyRegNumberStr + " already exists in the system!");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            showAlert("Error", "Company registration number must be a valid number");
+            return;
+        }
+
+        String customerId = DataManager.generateCustomerId();
+
+        // Parse registration number
+        int companyRegNumber;
+        try {
+            companyRegNumber = Integer.parseInt(companyRegNumberStr);
+        } catch (NumberFormatException e) {
+            showAlert("Error", "Company registration number must be a valid number");
+            return;
+        }
+
+        // Create Company customer
+        Company company = new Company(
+                companyName,                    // companyName
+                companyAddress,                 // companyAddress
+                location,                       //location
+                companyRegNumber,               // company Registration Number
+                parseDate(incorporationDate),   // dateOfIncorporation
+                customerId,                     // customerID
+                email,                          // email
+                companyPhone,                   // phoneNumber
+                contactPerson,                  //contact person
+                contactPhone                    //contact phone for the contact person
+        );
+
+        DataManager.saveCustomer(company);
+        showAlert("Success", "Business customer registered successfully!\nCustomer ID: " + customerId + "\nGive this ID to the customer.");
+        clearAllFields();
     }
 
     private void clearAllFields() {
         // Clear individual fields
         indFirstName.clear();
         indLastName.clear();
+        indDateOfBirth.clear();
         indOmangId.clear();
-        indEmail.clear();
         indPhone.clear();
+        indEmail.clear();
+        indAddress.clear();
+        indResidence.clear();
 
         // Clear business fields
         compName.clear();
         compRegNumber.clear();
-        compContactPerson.clear();
-        compBusinessType.clear();
+        compAddress.clear();
+        compLocation.clear();
         compPhone.clear();
+        compContactPerson.clear();
+        compContactPhone.clear();
+        compEmail.clear();
+        dateOfIncorporation.clear();
     }
+
+    private static void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
 }

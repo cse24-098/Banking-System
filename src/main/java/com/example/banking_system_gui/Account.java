@@ -74,14 +74,9 @@ public abstract class Account {
     public void addTransaction(String type, double amount) {
         String transaction = type + ": P" + amount + " | New Balance: P" + balance;
         this.transactionHistory.add(transaction);
+
     }
 
-    //common method to display account details
-    public void displayAccountDetails() {
-        System.out.println("Account Number: " + accountNumber);
-        System.out.println("Balance: P " + balance);
-        System.out.println("Branch: " + branch);
-        System.out.println("Date Opened: " + dateOpened);
-        System.out.println("Customer ID: " + customerID);
-    }
+    public abstract double getInterestRate();
+
 }
