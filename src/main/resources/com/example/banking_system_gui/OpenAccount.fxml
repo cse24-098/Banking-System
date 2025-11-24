@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox prefHeight="913.0" prefWidth="700" spacing="25" style="-fx-background-color: linear-gradient(to bottom, #ff6b6b 0%, #ee5a24 100%); -fx-padding: 30;" fx:controller="com.example.banking_system_gui.OpenAccountController" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="834.0" prefWidth="700" spacing="25" style="-fx-background-color: linear-gradient(to bottom, #ff6b6b 0%, #ee5a24 100%); -fx-padding: 30;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.banking_system_gui.OpenAccountController">
 
     <!-- Header -->
     <VBox alignment="CENTER" spacing="10">

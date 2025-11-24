@@ -188,7 +188,12 @@ public class ViewAccountsController {
 
     @FXML
     void backToDashboard(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("Dashboard.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Dashboard.fxml"));
+        Parent root = loader.load();
+
+        DashboardController dashboardController = loader.getController();
+        dashboardController.setCustomerData(currentCustomer.getCustomerID());
+
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.setTitle("Customer Dashboard");

@@ -252,7 +252,7 @@ public class CreateNewCustomerController {
                 parseDate(incorporationDate),   // dateOfIncorporation
                 customerId,                     // customerID
                 email,                          // email
-                companyPhone,                   // phoneNumber
+                companyPhone,                   // company phoneNumber
                 contactPerson,                  //contact person
                 contactPhone                    //contact phone for the contact person
         );

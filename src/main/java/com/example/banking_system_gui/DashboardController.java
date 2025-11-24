@@ -10,6 +10,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
+import javafx.scene.Node;
 
 import java.io.IOException;
 
@@ -37,10 +38,13 @@ public class DashboardController {
             OpenAccountController openAccountController = loader.getController();
             openAccountController.setCustomerData(currentCustomerId);
 
+            Stage currentStage = (Stage) OpenAccountButton.getScene().getWindow();
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Open New Account");
             stage.show();
+
+            currentStage.close();
 
         } catch (IOException e) {
             showAlert(AlertType.ERROR, "Navigation Error", "Cannot load open account form: " + e.getMessage());
@@ -57,10 +61,13 @@ public class DashboardController {
             DepositController depositController = loader.getController();
             depositController.setCustomerData(currentCustomerId);
 
+            Stage currentStage = (Stage) depositButton.getScene().getWindow();
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Make a Deposit");
             stage.show();
+
+            currentStage.close();
 
         } catch (IOException e) {
             showAlert(AlertType.ERROR, "Navigation Error", "Cannot load deposit form: " + e.getMessage());
@@ -106,10 +113,13 @@ public class DashboardController {
             HistoryController historyController = loader.getController();
             historyController.setCustomerData(currentCustomerId);
 
+            Stage currentStage = (Stage) historyButton.getScene().getWindow();
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Transaction History");
             stage.show();
+
+            currentStage.close();
 
         } catch (IOException e) {
             showAlert(AlertType.ERROR, "Navigation Error", "Cannot load transaction history: " + e.getMessage());
@@ -127,10 +137,13 @@ public class DashboardController {
             ViewAccountsController accountsController = loader.getController();
             accountsController.setCustomerData(currentCustomerId);
 
+            Stage currentStage = (Stage) accountsButton.getScene().getWindow();
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("My Accounts");
             stage.show();
+
+            currentStage.close();
 
         } catch (IOException e) {
             showAlert(AlertType.ERROR, "Navigation Error", "Cannot load accounts view: " + e.getMessage());
@@ -147,10 +160,13 @@ public class DashboardController {
             ViewBalanceController balanceController = loader.getController();
             balanceController.setCustomerData(currentCustomerId);
 
+            Stage currentStage = (Stage) balanceButton.getScene().getWindow();
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Account Balance");
             stage.show();
+
+            currentStage.close();
 
         } catch (IOException e) {
             showAlert(AlertType.ERROR, "Navigation Error", "Cannot load balance view: " + e.getMessage());
@@ -167,10 +183,13 @@ public class DashboardController {
             WithdrawController withdrawController = loader.getController();
             withdrawController.setCustomerData(currentCustomerId);
 
+            Stage currentStage = (Stage) withdrawButton.getScene().getWindow();
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Make a Withdrawal");
             stage.show();
+
+            currentStage.close();
 
         } catch (IOException e) {
             showAlert(AlertType.ERROR, "Navigation Error", "Cannot load withdrawal form: " + e.getMessage());

@@ -14,7 +14,7 @@ public class Company extends Customer {
     public Company(String companyName, String companyAddress, String location, int companyRegNumber,
                    Date dateOfIncorporation, String customerID, String email, String phoneNumber,
                    String contactPerson, String contactPhone) {
-        super("", "", customerID, email, phoneNumber);
+        super("", "", customerID, email, "");
         this.companyName = companyName;
         this.companyAddress = companyAddress;
         this.location = location;

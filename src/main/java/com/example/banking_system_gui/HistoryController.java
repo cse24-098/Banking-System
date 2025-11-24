@@ -148,7 +148,6 @@ public class HistoryController {
     }
 
     private Transaction parseTransactionString(String transactionString, String accountNumber) {
-        System.out.println("Parsing Transaction:" + transactionString);
 
         try {
             // The transaction is stored as: accountNumber,type,amount,newBalance,timestamp,description
@@ -158,13 +157,11 @@ public class HistoryController {
                 String type = data[1].trim();
                 String amount = data[2].trim();
                 String balance = data[3].trim();
-                long timestamp = Long.parseLong(data[4].trim());
+                String dateString = data[4].trim();
                 String description = data[5].trim();
 
-                System.out.println("Parsed - Type: " + type + ", Amount: " + amount + ", Balance: " + balance + ", Timestamp: " + timestamp);
-
                 // Format date from timestamp
-                String formattedDate = formatDateFromTimestamp(timestamp);
+                String formattedDate = formatDateString(dateString);
 
                 // Format amount with BWP
                 String formattedAmount = "BWP " + String.format("%.2f", Double.parseDouble(amount));
@@ -172,7 +169,7 @@ public class HistoryController {
 
                 return new Transaction(formattedDate, accountNumber, type, formattedAmount, formattedBalance, description);
             } else {
-                System.out.println("❌ INVALID DATA LENGTH: Expected 6, got " + data.length);
+                System.out.println(" INVALID DATA LENGTH: Expected 6, got " + data.length);
             }
         } catch (Exception e) {
             System.err.println("Error parsing transaction: " + transactionString);
@@ -181,16 +178,18 @@ public class HistoryController {
         return null;
     }
 
-    private String formatDateFromTimestamp(long timestamp) {
+    private String formatDateString(String dateString) {
         try {
-            Date date = new Date(timestamp);
+            // If it's already in a nice format, just return it
+            // Or parse and reformat if needed
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            Date date = inputFormat.parse(dateString);
             return outputFormat.format(date);
         } catch (Exception e) {
-            return "Unknown Date";
+            return dateString; // Return original if parsing fails
         }
     }
-
     private void applyFilters() {
         String selectedAccount = accountFilterComboBox.getValue();
         String selectedType = typeFilterComboBox.getValue();

@@ -163,18 +163,35 @@ public class DepositController {
 
     @FXML
     void handleBack(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/com/example/banking_system_gui/Dashboard.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/banking_system_gui/Dashboard.fxml"));
+        Parent root = loader.load();
+
+        DashboardController dashboardController = loader.getController();
+        dashboardController.setCustomerData(currentCustomer.getCustomerID());
+
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
-        stage.setTitle("My Accounts");
+        stage.setTitle("Customer Dashboard");
+
     }
 
     @FXML
     void handleCancel(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/com/example/banking_system_gui/Dashboard.fxml"));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.setTitle("My Accounts");
+        clearFormFields();
+    }
+
+    private void clearFormFields() {
+        // Clear the amount field
+        amountField.clear();
+
+        // Clear and reset the account selection if needed
+        accountComboBox.getSelectionModel().clearSelection();
+
+        // Reset the balance display
+        currentBalanceLabel.setText("BWP 0.00");
+
+        // Optional: Show a confirmation message
+        showAlert("Cancelled", "Transaction cancelled. All fields cleared.");
     }
 
     @FXML
