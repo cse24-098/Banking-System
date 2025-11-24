@@ -142,21 +142,14 @@ public class DataManager {
     }
 
     public static Customer findCustomerById(String customerId) {
-        System.out.println("=== DEBUG: FINDING CUSTOMER BY ID ===");
-        System.out.println("Looking for: '" + customerId + "'");
-
         List<Customer> customers = loadAllCustomers();
-
-        System.out.println("Total customers loaded: " + customers.size());
 
         for (Customer customer : customers) {
             System.out.println("Available customer: " + customer.getCustomerID());
             if (customer.getCustomerID().equals(customerId)) {
-                System.out.println("✅ FOUND MATCH!");
                 return customer;
             }
         }
-        System.out.println("❌ NO MATCH FOUND");
         return null;
     }
 
@@ -175,10 +168,10 @@ public class DataManager {
                interestRate = ((InvestmentAccount) account).getInterestRate();
            }
 
-           //format the date for saving
-           String dateString = String.valueOf(account.getDateOpened().getTime()); //save as timestamp
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String dateString = dateFormat.format(account.getDateOpened());
 
-           writer.println(account.getAccountNumber() + "," +
+            writer.println(account.getAccountNumber() + "," +
                          customerId + "," +
                          type +"," +
                          account.getBalance() + "," +
@@ -193,6 +186,7 @@ public class DataManager {
 
     public static List<Account> loadAccountByCustomerID(String customerId) {
         List<Account> accounts = new ArrayList<>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         try (BufferedReader reader = new BufferedReader(new FileReader(ACCOUNTS_FILE))) {
             String line;
@@ -206,8 +200,20 @@ public class DataManager {
                     String type = data[2];
                     double balance = Double.parseDouble(data[3]);
                     double interestRate = Double.parseDouble(data[4]);
-                    long timestamp = Long.parseLong(data[5]);
-                    Date originalDate = new Date(timestamp);
+
+                    Date originalDate;
+                    try {
+                        originalDate = dateFormat.parse(data[5]);
+                    } catch (Exception e) {
+                        // Fallback: if it's a timestamp, handle it
+                        try {
+                            long timestamp = Long.parseLong(data[5]);
+                            originalDate = new Date(timestamp);
+                        } catch (NumberFormatException ex) {
+                            originalDate = new Date(); // Current date as fallback
+                        }
+                    }
+
 
                     Account account;
 
